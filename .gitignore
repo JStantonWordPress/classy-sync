@@ -1,6 +1,8 @@
 # Sensitive files - never commit these
 credentials.json
-*.json
+
+# Allow team-funds-export.json to be committed for GitHub Pages
+# *.json - commented out to allow JSON output file
 
 # Log files
 logs/

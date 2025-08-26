@@ -5,9 +5,12 @@ This file contains all the configuration settings for the sync script.
 Update the values below according to your setup.
 """
 
+import os
+
 # Classy API Configuration
-CLASSY_CLIENT_ID = '9fCzIkFOECuYvRmG'
-CLASSY_CLIENT_SECRET = 'bZeoonSSBRE2L55V'
+# Use environment variables in GitHub Actions, fallback to hardcoded values for local development
+CLASSY_CLIENT_ID = os.getenv('CLASSY_CLIENT_ID', '9fCzIkFOECuYvRmG')
+CLASSY_CLIENT_SECRET = os.getenv('CLASSY_CLIENT_SECRET', 'bZeoonSSBRE2L55V')
 CLASSY_TOKEN_URL = 'https://api.classy.org/oauth2/auth'
 CLASSY_API_BASE_URL = 'https://api.classy.org/2.0'
 ORGANIZATION_ID = '70653'

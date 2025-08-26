@@ -1,0 +1,36 @@
+name: Update Classy Data
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # Runs daily at 6 AM UTC
+  workflow_dispatch:       # Allow manual run
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run sync script
+        env:
+          CLASSY_CLIENT_ID: ${{ secrets.CLASSY_CLIENT_ID }}
+          CLASSY_CLIENT_SECRET: ${{ secrets.CLASSY_CLIENT_SECRET }}
+        run: python3 classy_transactions_sync.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add team-funds-export.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
